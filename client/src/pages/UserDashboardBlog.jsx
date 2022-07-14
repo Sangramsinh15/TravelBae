@@ -1,71 +1,111 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./../components/UserDashboard/Dashboard.css";
 import NavBar from "../containers/NavBar";
 import Footer from "../containers/Footer";
 import SideBar from "../components/SideBar/Sidebar";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
 import { Grid } from "@material-ui/core";
-import { GiStarAltar } from "react-icons/gi";
-import { Button } from "@mui/material";
+import { Box, Button, CardActionArea, CssBaseline, Divider, Paper, Typography, useTheme } from "@mui/material";
 import { useHistory } from "react-router-dom";
+import DeleteIcon from '@mui/icons-material/Delete';
+import { blogCards } from "../containers/CardCont/mockData";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import axios from "axios";
 
 function UserDashbordBlog() {
   const history = useHistory();
+  const [blogs, setBlogs] = React.useState([]);
+
   const handleClick = () => {
     history.push("/write-blog");
   }
+  const fetchAllBlogs = async () => {
+    let res = await axios({
+      method: "post",
+      url: 'http://localhost:8000/bg/fetchAllBlogs',
+    })
+    setBlogs(res.data);
+    console.log(res.data);
+  }
+  useEffect(() => { 
+    fetchAllBlogs();
+  }, [])
+  const theme = useTheme();
+  
+  const handleDelete = async (id) => {
+    let res = await axios({
+      method: 'post',
+      url: 'http://localhost:8000/bg/deleteBlogByID',
+      data: {
+        blog_id: id
+      }
+    })
+    console.log(res.data)
+  }
+
+  const displayCard = (blog) => {
+    return (<Grid item xs={12}>
+      <Paper sx={{ display: 'flex' }} >
+        <Box sx={{ display: 'flex' }} onClick={handleClick}>
+          <img src={blog.image} width="200rem" alt="Blog Image" onClick={handleClick} />
+        </Box>
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', padding: 2 }} onClick={handleClick}>
+          <Typography component="div" variant="h5">
+            {blog.title}
+          </Typography>
+          <Typography variant="subtitle1" color="text.secondary" component="div">
+            Jenner Joe
+          </Typography>
+          <Typography>
+            {blog.content}
+          </Typography>
+        </Box>
+        <Box>
+          <DeleteIcon color="primary" onClick={() => {handleDelete(blog.blog_id)}} />
+        </Box>
+      </Paper>
+    </Grid>)
+  }
+
   return (
     <Grid container>
+      <CssBaseline />
       <Grid item xs={12}>
         <NavBar />
       </Grid>
-      <Grid item xs={12}>
-        <div className="main-container">
-          <SideBar />
-          <div className="dashbord-container">
-            <div className="dashbord-subcontainer">
-              <h2 className="dashbord-titletext">BLOGS</h2>
-              <Button variant="contained" onClick={handleClick}>Create Blog</Button>
-              <div className="dashbord-sectionone">
-                <div className="dashbord-columnone">
-                  {/* CLOSED TRIP INFORMATION */}
-                  <div className="dashbord-content">
-                    <div className="dashbord-info">
-                      <GiStarAltar
-                        style={{
-                          height: "8rem",
-                          width: "8rem",
-                          // borderRadius: "4rem",
-                        }}
-                        alt=""
-                      />
-                      <div style={{ marginLeft: "1rem" }}>
-                        <h3 className="title">My First Blog in Travel Bae</h3>
-                        <h5 style={{ fontWeight: "300" }}>
-                          Lorem ipsum dolor sit amet, consectetuer adipiscing
-                          elit. Aenean commodo ligula eget dolor. Aenean massa.
-                          Cum sociis natoque penatibus et magnis dis parturient
-                          montes, nascetur ridiculus mus. Donec quam felis,
-                          ultricies nec, pellentesque eu, pretium quis, sem.
-                          Nulla consequat massa quis enim. Donec pede justo,
-                          fringilla vel, aliquet nec, vulputate eget, arcu. In
-                          enim justo, rhoncus ut, imperdiet a, venenatis vitae,
-                          justo. Nullam dictum felis eu pede mollis pretium.
-                          Integer tincidunt. Cras dapibus
-                        </h5>
-                      </div>
-                    </div>
-
-                    <li style={{ listStyle: "none" }}>
-                      <h5 className="all">
-                        <a href="/blog-list">All Blog List</a>
-                      </h5>
-                    </li>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <Grid item xs={12} lg={3}>
+        <SideBar />
+      </Grid>
+      <Grid item xs={12} lg={8}>
+        <Box pl={3} mt = {4} pb={3} display="flex">
+          <Paper >
+            <Grid container>
+              <Grid item lg={6}>
+                <Box pt={2} pl={4}>
+                  <Typography variant="h4" component="span">My Blogs</Typography>
+                </Box>
+              </Grid>
+              <Grid item lg={6}>
+                <Box pt={2} pr={4} display="flex" justifyContent="flex-end">
+                  <Button variant="outlined" color="primary">Create Blog</Button>
+                </Box>
+              </Grid>
+            </Grid>
+            <Box pl={2} pt={2} pb={2} pr={2}>
+              <Divider />
+            </Box>
+            <Box ml={2} pl={2} pt={3} pb={3} mr={3}>
+              <Grid container flexDirection="column" spacing={2}>
+                {blogs.map(blog => {
+                  return displayCard(blog)
+                })}
+              </Grid>
+            </Box>
+          </Paper>
+        </Box>
       </Grid>
       <Grid item xs={12}>
         <Footer />
