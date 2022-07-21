@@ -1,7 +1,10 @@
+/**
+ * Author: Hrishita Mavani
+ * Feature: Blog Management
+ */
 import styled from "styled-components";
-import ReactQuill from "react-quill"; // ES6
-import "react-quill/dist/quill.snow.css"; // ES6
-// import React, {useEffect, useRef, useState} from 'react';
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import React, { useRef, useState } from "react";
 
 const Wrapper = styled.div`
@@ -16,9 +19,6 @@ const WrapperLeft = styled.div`
   width: 48%;
   position: relative;
 `;
-// const WrapperRight = styled.div`
-//   width: 48%;
-// `;
 
 function EditorComp({ handleSubmit, onChangeText }) {
   const modules = {
@@ -27,52 +27,63 @@ function EditorComp({ handleSubmit, onChangeText }) {
       [{ color: [] }, { background: [] }],
       ["bold", "italic", "underline", "strike", "blockquote"],
       [{ list: "ordered" }, { list: "bullet" }],
-      ["link"], // note: removed image 'image'
+      ["link"],
     ],
-  }
+  };
 
-    const ref = useRef()
-   
-    const [text,setText] = useState('');
-    const [image, setImage] = useState();
-    const [title, setTitle] = useState("");
-    const defaultAlertState = { show: false, message: "" };
-    const [alert, setAlert] = useState(defaultAlertState);
+  const ref = useRef();
 
-    const handleChange= (html)=> {
-      onChangeText(ref.current.getEditor().getText())
-      setText(html);
-    }
+  const [text, setText] = useState("");
+  const [image, setImage] = useState();
+  const [title, setTitle] = useState("");
+  const defaultAlertState = { show: false, message: "" };
+  const [alert, setAlert] = useState(defaultAlertState);
 
-        
-        return (
-          <div className="Editor" style={{width: '100%'}}>
-       
-            <Wrapper style={{height: '100%'}}>
-            <WrapperLeft style={{height: '100%'}}>
-            <ReactQuill value={text}
-              ref={ref}
+  const handleChange = (html) => {
+    onChangeText(ref.current.getEditor().getText());
+    setText(html);
+  };
 
-              style={{height: '100%'}}
-              modules={modules}
-              onChange={handleChange} />
-            
-            </WrapperLeft>
-      
-            </Wrapper>
-        
-              </div>
-        );
-      }
-    
-    
-    const formats = [
-      'header', 'font', 'background', 'color', 'code', 'size',
-      'bold', 'italic', 'underline', 'strike', 'blockquote',
-      'list', 'bullet', 'indent', 'script', 'align', 'direction',
-      'link', 'image', 'code-block', 'formula', 'video'
-    ]
-    
-    
-    export default EditorComp;
-    
+  return (
+    <div className="Editor" style={{ width: "100%" }}>
+      <Wrapper style={{ height: "100%" }}>
+        <WrapperLeft style={{ height: "100%" }}>
+          <ReactQuill
+            value={text}
+            ref={ref}
+            style={{ height: "100%" }}
+            modules={modules}
+            onChange={handleChange}
+          />
+        </WrapperLeft>
+      </Wrapper>
+    </div>
+  );
+}
+
+const formats = [
+  "header",
+  "font",
+  "background",
+  "color",
+  "code",
+  "size",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "script",
+  "align",
+  "direction",
+  "link",
+  "image",
+  "code-block",
+  "formula",
+  "video",
+];
+
+export default EditorComp;

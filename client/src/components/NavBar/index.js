@@ -202,7 +202,6 @@ const NavBarComp = () => {
           <Box sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}>
             <img src={Logo} alt="travelbae-logo" height="35px" />
           </Box>
-          {/* <Link to={"/"} style={{ textDecoration: "none" }}> */}
           <Typography
             variant="h5"
             noWrap
@@ -221,7 +220,6 @@ const NavBarComp = () => {
           >
             TRAVEL BAE
           </Typography>
-          {/* </Link> */}
           <Box
             p={2}
             sx={{ flexGrow: 2, display: { xs: "none", md: "flex" } }}
@@ -239,11 +237,6 @@ const NavBarComp = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }} justifyContent="flex-end">
-            {/* <Tooltip title="Open settings"> */}
-            {/* <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton> */}
-
             {userId ? (
               displayUserAvatar()
             ) : (
@@ -257,7 +250,6 @@ const NavBarComp = () => {
               </Button>
             )}
 
-            {/* </Tooltip> */}
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"

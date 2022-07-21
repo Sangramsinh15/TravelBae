@@ -1,15 +1,15 @@
 /**
  * Author: Smriti Mishra
- * Feature: Googke Map
+ * Feature: Google Map
  */
 import React, { useState } from "react";
-import {
-  GoogleMap,
-  // InfoWindow,
-  LoadScript,
-  Marker,
-} from "@react-google-maps/api";
+import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
+/**
+ *
+ * @param {*} props
+ * @returns a map component used to display the loaction of destination on the destination page.
+ */
 const MapComponent = (props) => {
   const [popUp, setpopUp] = useState("");
 

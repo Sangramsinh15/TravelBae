@@ -1,3 +1,7 @@
+/**
+ * Author: Trushita Maurya
+ * Feature: Generic
+ */
 import React from "react";
 import {
   Box,

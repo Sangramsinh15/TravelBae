@@ -1,3 +1,7 @@
+/**
+ * Author: Trushita Maurya
+ * Feature: User Management
+ */
 import * as React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -7,7 +11,12 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Box, Divider } from "@mui/material";
 
-// By default the button labels are - cancel and ok
+/**
+ *
+ * @param {*} props
+ * @returns a pop-up asking the user to login to the application before performing a task
+ * that needs authorization.
+ */
 const LoginAlertComp = (props) => {
   const { open, handleClose } = props;
 

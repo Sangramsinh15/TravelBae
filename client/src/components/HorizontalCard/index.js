@@ -12,10 +12,8 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import { useContext } from "react";
 import LocationOn from "@mui/icons-material/LocationOn";
-import axios from "axios";
-import { BACKEND_URL } from "../../config";
-import { useEffect, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import AddToPlanComp from "../AddToPlan";
 import LoginAlertComp from "../LoginAlert";
@@ -39,7 +37,6 @@ const style = {
  * @returns
  */
 
-//Code Reference: https://mui.com/core/
 function HorizontralCardComp(props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);

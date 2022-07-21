@@ -18,6 +18,9 @@ import { useHistory } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
 
+/**
+ * Sidebar component for the user profile page.
+ */
 const Sidebar = (props) => {
   const history = useHistory();
   const navigateToPage = (link) => {

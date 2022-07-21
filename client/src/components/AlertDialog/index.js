@@ -1,3 +1,7 @@
+/**
+ * Author: Trushita Maurya
+ * Task: Alert box used in multiple pages.
+ */
 import * as React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -6,7 +10,11 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-// By default the button labels are - cancel and ok
+/**
+ * 
+ * @param {*} props 
+ * @returns alert box used in pages like destinations for a confirmation of a task.
+ */
 const AlertDialogComp = (props) => {
   const { open, handleClose, title, message, buttons, handleOk } = props;
   return (

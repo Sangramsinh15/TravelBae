@@ -32,7 +32,6 @@ const DestinationCardComp = ({ details }) => {
   const [openAdd, setOpenAdd] = useState(false); // for alert box
   const [openRemove, setOpenRemove] = useState(false); // for alert box
 
-
   const handleOpenAdd = () => {
     setOpenAdd(true);
   };
@@ -48,24 +47,28 @@ const DestinationCardComp = ({ details }) => {
   };
 
   const handleOkAdd = () => {
-    axios.post(`${BACKEND_URL}/bl/addDataToBucketList`, {
-      email_id: userId,
-      dest_name: details.details.dest_name,
-      dest_code: details.details.dest_code,
-      img: details.details.img
-    }).then((res) => {
-      window.location.reload();
-    });
-  }
+    axios
+      .post(`${BACKEND_URL}/bl/addDataToBucketList`, {
+        email_id: userId,
+        dest_name: details.details.dest_name,
+        dest_code: details.details.dest_code,
+        img: details.details.img,
+      })
+      .then((res) => {
+        window.location.reload();
+      });
+  };
 
   const handleOkRemove = () => {
-    axios.post(`${BACKEND_URL}/bl/removeDataFromBucketList`, {
-      email_id: userId,
-      dest_name: details.details.dest_name
-    }).then((res) => {
-      window.location.reload();
-    });
-  }
+    axios
+      .post(`${BACKEND_URL}/bl/removeDataFromBucketList`, {
+        email_id: userId,
+        dest_name: details.details.dest_name,
+      })
+      .then((res) => {
+        window.location.reload();
+      });
+  };
 
   return (
     <Paper

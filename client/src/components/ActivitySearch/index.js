@@ -1,9 +1,18 @@
+/**
+ * Author: Sangramsinh More
+ * Feature: Activties to do
+ * Task: Activties searching activities by city
+ */
 import { Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { Box, Grid } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
-// Search box
+/**
+ * 
+ * @param {*} props 
+ * @returns search box used in the activities list page.
+ */
 const ActivitySearchBoxComp = (props) => {
   let today = new Date().toISOString().slice(0, 10);
 

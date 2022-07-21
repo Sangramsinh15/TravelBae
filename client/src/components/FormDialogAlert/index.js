@@ -1,3 +1,8 @@
+/**
+ * Author: Trushita Maurya
+ * Feature: User Management
+ * Task: Change Password
+ */
 import * as React from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -13,6 +18,11 @@ import {
   passwordValidator,
 } from "../../utils/validations";
 
+/**
+ *
+ * @param {*} props
+ * @returns a popup component for changing the password of the logged in user.
+ */
 export default function FormDialogComp(props) {
   const { open, handleClose, handleSubmitForm, isUserPopUp, alertMsg } = props;
   const [inputPwdValues, setInputPwdValue] = useState({
@@ -51,8 +61,6 @@ export default function FormDialogComp(props) {
   const checkValidation = () => {
     let errors = Object.assign({}, validation);
 
-    //password validation
-
     const pwdCurrentValidate = passwordValidator(inputPwdValues.cPassword);
     const pwdNewValidate = passwordValidator(inputPwdValues.nPassword);
 
@@ -71,8 +79,6 @@ export default function FormDialogComp(props) {
       errors.errorMsg = "";
     }
 
-    //confirm password validation
-
     const pwdConfValidate = confirmPwdValidator(
       inputPwdValues.confPassword,
       inputPwdValues.nPassword
@@ -80,7 +86,6 @@ export default function FormDialogComp(props) {
 
     if (!pwdConfValidate.isValid) {
       errors.errorMsg = pwdConfValidate.errorMsg;
-      // return false;
     } else {
       errors.errorMsg = "";
     }

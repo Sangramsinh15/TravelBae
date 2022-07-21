@@ -90,7 +90,6 @@ function RegisterComp(props) {
   //password validation
   const handlePasswordChange = (value) => {
     setPassword(value);
-    // let pattern = new RegExp(/^[A-Za-z0-9_@./!$%^~`*=|;:'",(){}#&+-]*$/);
     let pattern = new RegExp(
       /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
     );
@@ -191,11 +190,6 @@ function RegisterComp(props) {
     };
 
     props.handleSignUp(userProfileData);
-    //send data to next page if validation is correct
-    // history.push({
-    //   pathname: "/userdashboard-trips",
-    //   state: userProfileData,
-    // });
   };
 
   return (

@@ -1,7 +1,17 @@
+/**
+ * Author: Sangramsinh More
+ * Feature: Accommodation
+ * Task: Accommoadation sorting searching hotels by city
+ */
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { Grid } from "@mui/material";
 
+/**
+ * 
+ * @param {*} props 
+ * @returns Card component used in the accommodations list page.
+ */
 export default function VerticalDisplayCardComp(props) {
   return (
     <Grid container>

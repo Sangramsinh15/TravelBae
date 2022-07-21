@@ -27,9 +27,8 @@ import { AuthContext } from "../../context/AuthContext";
 function LoginComp(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [open, setOpen] = useState(false); // for alert box
+  const [open, setOpen] = useState(false);
   const loginVal = props.loginCredsError;
-  // const [loginVal, setLoginVal] = useState(props.loginCredsError);
   const handleClose = () => {
     setOpen(false);
   };
@@ -113,7 +112,6 @@ function LoginComp(props) {
     }
 
     const userData = { email, password };
-    // setOpen(true);
     props.handleLogin(userData);
   };
 

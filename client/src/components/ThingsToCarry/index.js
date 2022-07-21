@@ -17,6 +17,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useStyles } from "./styles";
 import NoDataFound from "../../components/NoDataFound";
 
+/**
+ * 
+ * @param {*} props 
+ * @returns a component with cards containing images and names of different things based on filter.
+ */
 const ThingsToCarryComp = (props) => {
   const classes = useStyles();
   const [checkedItems, setCheckedItems] = useState([]);

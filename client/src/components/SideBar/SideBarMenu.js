@@ -4,7 +4,6 @@
  */
 import { RiFileCopyLine } from "react-icons/ri";
 import {
-  AiOutlinePieChart,
   AiOutlineFlag,
   AiOutlineSetting,
   AiFillHeart

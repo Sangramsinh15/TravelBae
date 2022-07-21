@@ -1,3 +1,7 @@
+/**
+ * Author: Trushita Maurya
+ * Task: Generic
+ */
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({

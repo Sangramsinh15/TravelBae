@@ -1,14 +1,23 @@
+/**
+ * Author: Trushita Maurya
+ * Feature: Generic
+ * Task: Home page
+ */
 import { Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { Box, Grid } from "@material-ui/core";
-import AlertDialog from "../../containers/AlertDialog";
 
+/**
+ *
+ * @param {*} param0
+ * @returns a search box component used in the home page.
+ */
 // Search box
 const SearchBoxComp = ({ onEvent }) => {
   const [searchInput, setSearchInput] = useState("");
   const navigateToDest = () => {
     onEvent(searchInput);
-  }
+  };
 
   return (
     <Box marginLeft={4} marginRight={4}>

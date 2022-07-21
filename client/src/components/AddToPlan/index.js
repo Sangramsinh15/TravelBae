@@ -1,3 +1,8 @@
+/**
+ * Author: Nishit Mistry
+ * Feature: Trip planner
+ * Task: Add to plan
+ */
 import React, { useState, useContext, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import { Box, Divider, Typography, Button, Grid } from "@mui/material";
@@ -13,6 +18,11 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Alert from "@mui/material/Alert";
 
+/**
+ * 
+ * @param {*} props 
+ * @returns a pop-up displayed when one clicks on add to trip button.
+ */
 export default function FormDialogComp(props) {
   const [validation, setValidation] = useState("");
   const { data, open, handleClose } = props;
@@ -25,7 +35,6 @@ export default function FormDialogComp(props) {
   const keys = data && Object.keys(data);
   const col_name = keys ? keys[0] : [];
 
-  // useEffect(() => {
   if (Object.keys(plan).length === 0 && open) {
     axios({
       method: "POST",
@@ -34,7 +43,6 @@ export default function FormDialogComp(props) {
       setPlan(res.data);
     });
   }
-  // }, []);
 
   const clearAll = () => {
     setNewPlan("");
