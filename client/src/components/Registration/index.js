@@ -1,3 +1,9 @@
+/**
+ * Author: Trushita Maurya
+ * Feature: User Management
+ * Task: Registration
+ *
+ */
 import React, { useState } from "react";
 import {
   Avatar,
@@ -10,8 +16,13 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Link } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import Alert from "@mui/material/Alert";
 
+/**
+ * File renders the registration form and takes care of client side validation
+ * @param {*} props
+ * @returns
+ */
 function RegisterComp(props) {
   const [fName, setfName] = useState("");
   const [lName, setlName] = useState("");
@@ -22,7 +33,6 @@ function RegisterComp(props) {
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
   };
-
 
   const [error, setError] = useState({
     fName: "",
@@ -80,7 +90,11 @@ function RegisterComp(props) {
   //password validation
   const handlePasswordChange = (value) => {
     setPassword(value);
-    let pattern = new RegExp(/^[A-Za-z0-9_@./!$%^~`*=|;:'",(){}#&+-]*$/);
+    // let pattern = new RegExp(/^[A-Za-z0-9_@./!$%^~`*=|;:'",(){}#&+-]*$/);
+    let pattern = new RegExp(
+      /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+    );
+
     let errorObj = Object.assign({}, error);
     let len = value.length;
     if (len < 8) {
@@ -89,7 +103,8 @@ function RegisterComp(props) {
       return false;
     }
     if (!pattern.test(value)) {
-      errorObj.password = "Enter valid password";
+      errorObj.password =
+        "Enter 1 uppercase, 1 lowercase and 1 special character";
       setError(errorObj);
       return false;
     }
@@ -172,10 +187,10 @@ function RegisterComp(props) {
       fName: fName,
       lName: lName,
       email: email,
-      password: password
+      password: password,
     };
 
-      props.handleSignUp(userProfileData)
+    props.handleSignUp(userProfileData);
     //send data to next page if validation is correct
     // history.push({
     //   pathname: "/userdashboard-trips",
@@ -294,6 +309,13 @@ function RegisterComp(props) {
                   helperText={error.cnfPassword}
                 />
               </Grid>
+              {props.authMsg ? (
+                <Grid item xs={12}>
+                  <Alert severity="error">{props.authMsg}</Alert>{" "}
+                </Grid>
+              ) : (
+                <></>
+              )}
               <Grid item xs={12}>
                 <Button
                   type="submit"
@@ -305,6 +327,7 @@ function RegisterComp(props) {
                   <Typography color="white">Sign Up</Typography>
                 </Button>
               </Grid>
+
               <Grid item xs={12}>
                 <Link href="/login">
                   <Typography textAlign="center">

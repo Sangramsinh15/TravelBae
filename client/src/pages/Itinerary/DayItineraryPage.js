@@ -1,3 +1,8 @@
+/**
+ * Author: Nishit Mistry
+ * Feature: Itinerary Management
+ * Task: Weather Integration
+ */
 import { Grid } from "@material-ui/core";
 import { Typography } from "@mui/material";
 import Divider from "@mui/material/Divider";
@@ -5,15 +10,18 @@ import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import NavBar from "../../containers/NavBar";
 import DescriptionList from "../../containers/DescriptionList";
-// import descList from "../../containers/DescriptionList/mockData";
 import Footer from "../../containers/Footer";
-// import weatherData from "./WeatherMockData";
 import axios from "axios";
 import moment from "moment";
 import { BACKEND_URL } from "../../config";
 import { Weather_API } from "../../config";
 import { useLocation } from "react-router-dom";
 
+/**
+ * Renders the day itinerary page that shows the content of a particular itinerary and
+ * weather details for a city
+ * @returns
+ */
 const DayItineraryPage = () => {
   const location = useLocation();
   const duration = location.state.duration;
@@ -41,7 +49,7 @@ const DayItineraryPage = () => {
   }, [cityName]);
 
   useEffect(() => {
-    const weatherURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${cityLat}&lon=${cityLong}&appid=${Weather_API}`;
+    const weatherURL = `https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/forecast?lat=${cityLat}&lon=${cityLong}&appid=${Weather_API}`;
     axios
       .get(weatherURL)
       .then((res) => {
@@ -56,12 +64,10 @@ const DayItineraryPage = () => {
     weatherData.list.map((item) => {
       return {
         epochDate: item.dt,
-        // https://stackoverflow.com/questions/40752287/use-moment-js-to-convert-unix-epoch-time-to-human-readable-time
         formattedDate: moment.unix(item.dt).format("MMM DD YYYY"),
       };
     });
 
-  //https://yagisanatode.com/2021/07/03/get-a-unique-list-of-objects-in-an-array-of-object-in-javascript/
   let uniqueDates = [
     ...new Map(
       dates && dates.map((item) => [item["formattedDate"], item])

@@ -1,16 +1,18 @@
-import { Link, makeStyles, Card, CardMedia } from "@material-ui/core";
-import React, { useState } from "react";
+/**
+ * Author: Smily Ms
+ * Feature: Destination Information System
+ */
+import { makeStyles, Card, CardMedia } from "@material-ui/core";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import NavBar from "../containers/NavBar";
-import { Grid, Box, Typography, Divider } from "@mui/material";
-import {
-  // destinationData,
-  blogCards,
-  accCards,
-} from "../containers/CardCont/mockData";
+import { Grid, Box, Typography, Divider, Button } from "@mui/material";
 import Footer from "../containers/Footer";
 import { useHistory } from "react-router-dom";
 import GoogleMap from "./../components/GoogleMap/index";
 import AlertDialog from "../containers/AlertDialog";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,13 +32,53 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
 }));
+
+/**
+ *
+ * @returns
+ */
 const Destination = () => {
   const classes = useStyles();
   const history = useHistory();
-  const handleListItemClick = (navigationLink) => {
-    history.push(navigationLink);
-  };
+  const params = useParams();
+
   const [open, setOpen] = useState(false); // for alert box
+  const [destinationName, setDestinationName] = useState("");
+  const [destinationDescription, setDestinationDescription] = useState("");
+  const [destinationImage, setDestinationImage] = useState("");
+  const [blogCards, setBlogCards] = useState("");
+  const [coordinates, setCoordinates] = useState({ lat: 44.62, lng: -63.57 });
+
+  useEffect(() => {
+    const fetchDestinationURL = `${BACKEND_URL}/destination/fetchDestinationByCode/${params.code}`;
+    axios
+      .get(fetchDestinationURL)
+      .then((res) => {
+        setCoordinates({
+          lat: parseFloat(res.data.destinations.latitude),
+          lng: parseFloat(res.data.destinations.longitude),
+        });
+        setDestinationName(res.data.destinations.dest_name);
+        setDestinationDescription(res.data.destinations.dest_desc);
+        setDestinationImage(res.data.destinations.img);
+      })
+      .catch((err) => console.log(err));
+
+    const fetchBlogsURL = `${BACKEND_URL}/bg/fetchBlogByDestination`;
+    axios
+      .post(fetchBlogsURL, {
+        destination_tag: params.code,
+      })
+      .then((res) => {
+        setBlogCards(res.data);
+      });
+  }, []);
+
+  const handleListItemClick = (navigationLink, type) => {
+    if (type === "blogs") {
+      history.push(navigationLink);
+    }
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -44,7 +86,10 @@ const Destination = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  const displayStrip = (title, cards, navigationLink) => {
+  const handleViewAccomodation = () => {
+    history.push("/accommodation/" + destinationName);
+  };
+  const displayStrip = (title, cards, navigationLink, type) => {
     // const data = cards;
     return (
       <>
@@ -55,13 +100,6 @@ const Destination = () => {
                 <Typography fontFamily="Nothing You Could Do" variant="h5">
                   {title}
                 </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={2}>
-              <Box pt={4} pr={2} display="flex" justifyContent="flex-end">
-                <Link color="secondary" onClick={handleOpen}>
-                  View All
-                </Link>
               </Box>
             </Grid>
           </Grid>
@@ -78,41 +116,45 @@ const Destination = () => {
             justifyContent="center"
             spacing={2}
           >
-            {cards.map((card) => {
-              return (
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={3}
-                  style={{ textAlign: "center" }}
-                >
-                  <Card
-                    className={classes.root}
-                    onClick={() => {
-                      handleListItemClick(navigationLink);
-                    }}
+            {cards &&
+              cards.map((card) => {
+                return (
+                  <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                    style={{ textAlign: "center" }}
                   >
-                    <CardMedia
-                      component="img"
-                      alt={title}
-                      height="300"
-                      image={card.img}
-                      title={title}
-                    />
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      component="h6"
-                      className={classes.font}
+                    <Card
+                      className={classes.root}
+                      onClick={() => {
+                        handleListItemClick(
+                          `${navigationLink}/${card.blog_id}`,
+                          "blogs"
+                        );
+                      }}
                     >
-                      {card.title}
-                    </Typography>
-                  </Card>
-                </Grid>
-              );
-            })}
+                      <CardMedia
+                        component="img"
+                        alt={title}
+                        height="300"
+                        image={card.image}
+                        title={title}
+                      />
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="h6"
+                        className={classes.font}
+                      >
+                        {card.title}
+                      </Typography>
+                    </Card>
+                  </Grid>
+                );
+              })}
           </Grid>
         </Grid>
       </>
@@ -127,47 +169,49 @@ const Destination = () => {
         <Grid item xs={12}>
           <Box sx={{ padding: "1em 3em" }}>
             <Grid container>
-              <Grid item sm={12} md={4}>
-                <Box sx={{ height: "20em", marginBottom: "1em" }}>
+              <Grid item sm={12}>
+                <Box sx={{ height: "25em", marginBottom: "1em" }}>
                   <img
-                    src="https://live.staticflickr.com/7105/27035703252_15ee559f5a_b.jpg"
+                    src={destinationImage}
                     height={"100%"}
                     alt="image4"
                     width={"100%"}
                   ></img>
                 </Box>
               </Grid>
-              <Grid item sm={12} md={5}>
+              <Grid item sm={12} md={9}>
                 <Box sx={{ margin: "0px 10px 20px" }}>
                   <Typography variant="h4" color="primary">
-                    Canada
+                    {destinationName}
                   </Typography>
                   <Typography variant="body2" color="default">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Ratione aliquam voluptatem esse delectus architecto facere
-                    totam aperiam sapiente aut, eius nisi possimus. Ipsum eius
-                    sapiente molestiae impedit maxime quisquam soluta. Lorem
-                    ipsum dolor sit amet consectetur adipisicing elit. Ratione
-                    aliquam voluptatem esse delectus architecto facere totam
-                    aperiam sapiente aut, eius nisi possimus. Ipsum eius
-                    sapiente molestiae impedit maxime quisquam soluta. Lorem
-                    ipsum dolor sit amet consectetur adipisicing elit. Ratione
-                    aliquam voluptatem esse delectus architecto facere totam
-                    aperiam sapiente aut, eius nisi possimus. Ipsum eius
-                    sapiente molestiae impedit maxime quisquam soluta.
+                    {destinationDescription}
                   </Typography>
+                  <Button
+                    variant="contained"
+                    onClick={handleViewAccomodation}
+                    sx={{ height: "3em", marginTop: "1em" }}
+                  >
+                    <Typography p={1}>View Accommodations</Typography>
+                  </Button>
                 </Box>
               </Grid>
-              <Grid item xs={12} sm={3} sx={{ padding: "0em 0.5em" }}>
-                <GoogleMap />
+              <Grid item xs={12} md={3} sx={{ padding: "0em 0.5em" }}>
+                <GoogleMap
+                  coordinates={coordinates}
+                  label={{ color: "black", text: "" + destinationName }}
+                />
               </Grid>
             </Grid>
           </Box>
         </Grid>
         <Grid item xs={12}>
           <Box sx={{ padding: "1em 3em" }}>
-            {displayStrip("Travel Blogs", blogCards, "/view-blogs")}
-            {displayStrip("Accommodations", accCards, "/accommodationList")}
+            {blogCards.length > 0 ? (
+              displayStrip("Travel Blogs", blogCards, "/view-blogs")
+            ) : (
+              <></>
+            )}
           </Box>
         </Grid>
       </Grid>

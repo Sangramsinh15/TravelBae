@@ -1,16 +1,29 @@
+/**
+ * Author: Hrishita Mavani
+ * Feature: Blog Management
+ * Task: View Blog Task - Display a particular blog
+ */
 import { Grid } from "@material-ui/core";
-import { Comment, Image } from "@material-ui/icons";
 import { CommentBank, Send } from "@mui/icons-material";
 import { Box, TextField } from "@material-ui/core";
 import { deepOrange, grey } from "@mui/material/colors";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import Footer from "../containers/Footer";
 import NavBar from "../containers/NavBar";
 import { Typography, Avatar } from "@mui/material";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
+import { BACKEND_URL } from "../config";
 
-function SingleComment({ index, comment, name = "John Doe" }) {
+/**
+ * This Page is used to display a particular blog
+ * User would be able to view the blog and also be able to comment on the blog
+ * @param {*} req : The request passsed as a parameter to the function blogDB
+ * @returns 
+ */
+
+function SingleComment({ index, comment, name = "Default name" }) {
   
   return (
     <Box
@@ -25,9 +38,7 @@ function SingleComment({ index, comment, name = "John Doe" }) {
           <Typography variant={"p"} fontSize={"1rem"} color={"#292929"}>
             {comment.author_id}
           </Typography>
-          {/* <Typography variant={"p"} fontSize={"0.8rem"} color={grey[500]}>
-            12 January 2020, 16:30 IST
-          </Typography> */}
+       
         </Box>
         <Typography className="my-2">{comment.comment_text}</Typography>
       </Box>
@@ -39,17 +50,18 @@ function ViewBlog() {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [blog, setBlog] = useState()
+  const auth = useContext(AuthContext);  
+  const userId = auth.userId ? auth.userId : "";
 
   let params = useParams()
   const fetchBlog = async () => {
     let res = await axios({
       method: "POST",
-      url: 'http://localhost:8000/bg/fetchBlogByID',
+      url: `${BACKEND_URL}/bg/fetchBlogByID`,
       data: {
         blog_id: params['id']
       }
     })
-    console.log("result", res.data)
     setBlog(res.data[0])
     setComments(res.data[0].comments)
   }
@@ -58,20 +70,22 @@ function ViewBlog() {
   }, [])
 
   const handleSubmit = async () => {
+
     let newComments = [...comments, {
+
       comment_id: Math.random() * 50000,
         blog_id: blog.blog_id,
         comment_text: comment,
-        author_id: 'hrishitamavani@gmail.com'
+        author_id: userId
     }];
     await axios({
       method: 'POST',
-      url: 'http://localhost:8000/bg/addComment',
+      url: `${BACKEND_URL}/bg/addComment`,
       data: {
         comment_id: Math.random() * 50000,
         blog_id: blog.blog_id,
         comment_text: comment,
-        author_id: 'hrishitamavani@gmail.com'
+        author_id: userId
       }
     })
     setComments(newComments);
@@ -89,7 +103,9 @@ function ViewBlog() {
               component={'img'}
               className={'className="img-fluid"'}
               alt="image3"
-              src={blog ? blog.image : ""}
+              lg={8}
+              height="300px"
+              src={blog && blog.image ? blog.image : "https://images.unsplash.com/photo-1657700099387-f11fe97ad6a8?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY1NzgxMjEzMg&ixlib=rb-1.2.1&q=80&w=750"}
             />
           </Box>
           <Box>

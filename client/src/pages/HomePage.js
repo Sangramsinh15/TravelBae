@@ -1,4 +1,4 @@
-import React, { useContext,useState } from 'react';
+import React, { useContext, useState } from "react";
 import {
   Grid,
   Link,
@@ -14,7 +14,7 @@ import SearchBoxComp from "../components/SearchBox";
 import Divider from "@mui/material/Divider";
 import {
   destinationData,
-  blogCards,
+  accCards2,
   accCards,
 } from "../containers/CardCont/mockData";
 import Footer from "../containers/Footer";
@@ -22,7 +22,7 @@ import Footer from "../containers/Footer";
 import AlertDialog from "../containers/AlertDialog";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-
+import { Button } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,22 +46,42 @@ const HomePage = () => {
   const classes = useStyles();
   const history = useHistory();
   const [open, setOpen] = useState(false); // for alert box
+  const [searchInput, setSearchInput] = useState("");
   const auth = useContext(AuthContext);
 
-  console.log("userId....",auth.userId);
-
-  const handleOpen = () => {
-    setOpen(true);
+  const handleOpen = (link, type) => {
+    if (type === "accommodation") {
+      history.push(link);
+    }
+    if (type === "blogs") {
+      history.push(link);
+    }
+    if (type === "destination") {
+      history.push("/destinations");
+    }
   };
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleClick = (link) => {
-    history.push(link);
+  const handleClick = (link, type) => {
+    if (type === "accommodation") {
+      history.push(link);
+    }
+    if (type === "blogs") {
+      history.push(link);
+    }
+    if (type === "destination") {
+      history.push(link);
+    }
   };
 
-  const displayStrip = (title, cards, link) => {
+  const handleEvent = (event) => {
+    setSearchInput(event);
+    history.push("/destinations/" + event);
+  };
+
+  const displayStrip = (title, cards, link, type) => {
     const data = cards;
     return (
       <>
@@ -76,7 +96,7 @@ const HomePage = () => {
             </Grid>
             <Grid item xs={2}>
               <Box pt={4} pr={2} display="flex" justifyContent="flex-end">
-                <Link onClick={handleOpen}>View All</Link>
+                <Button onClick={() => handleOpen(link, type)}>View All</Button>
               </Box>
             </Grid>
           </Grid>
@@ -107,7 +127,7 @@ const HomePage = () => {
                 >
                   <Card
                     className={classes.root}
-                    onClick={() => handleClick(link)}
+                    onClick={() => handleClick(`${link}/${card.city}`, type)}
                   >
                     <CardMedia
                       component="img"
@@ -144,13 +164,53 @@ const HomePage = () => {
       </Grid>
       <Grid item xs={12}>
         <Box pt={4} pb={4}>
-          <SearchBoxComp />
+          <SearchBoxComp onEvent={handleEvent} />
         </Box>
       </Grid>
-      {displayStrip("Popular Places", destinationData, "/destinations")}
-      {displayStrip("Travel Blogs", blogCards, "/view-blogs")}
-      {displayStrip("Accommodations", accCards, "/accommodationList")}
-
+      <Grid item xs={12}>
+        <Box pb={4} display="flex" justifyContent="center">
+          {" "}
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 500,
+              textAlign: "center",
+            }}
+          >
+            {" "}
+            Begin Your Adventure With Us
+          </Typography>
+        </Box>
+        <Box display="flex" justifyContent="center">
+          <Box pl={20} pr={20} sx={{ color: "grey", fontStyle: "italic" }}>
+            <Typography variant="h6" textAlign="center">
+              Confused where to start from or just looking for suggestions on
+              destination. This is the right place to get all the information
+              you want. Make your experience smooth by exlporing information and
+              advice from travellers!
+            </Typography>
+          </Box>
+        </Box>
+      </Grid>
+      {displayStrip(
+        "Popular Places",
+        destinationData,
+        "/destination",
+        "destination"
+      )}
+      {/* {displayStrip("Travel Blogs", blogCards, "/blog-list", "blogs")} */}
+      {displayStrip(
+        "Accommodations",
+        accCards,
+        "/accommodation",
+        "accommodation"
+      )}
+      {displayStrip(
+        "Most Visited",
+        accCards2,
+        "/accommodation",
+        "accommodation"
+      )}
       <Grid item xs={12}>
         <Footer />
       </Grid>

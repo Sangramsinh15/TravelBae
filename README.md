@@ -19,6 +19,10 @@ The Main Features of our application are:
 - Trip Planner
 ```
 
+## Prerequisites
+
+- Install and enable this [CORS extension](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=en) to run the project on Heroku.
+
 ## Project Repository, Individual Branch and Deployement URL
 
 - _Date Created_: 16 Jun 2022
@@ -115,11 +119,11 @@ All the images used for this project are royalty free.
 
 - Used Heroku to deploy the application.
 
-[3] "Getting Started – React", Reactjs.org, 2022. [Online]. Available: https://reactjs.org/docs/getting-started.html. [Accessed: 16- Jun- 2022]
+[3] "Getting Started – React", _Reactjs.org_ [Online]. Available: https://reactjs.org/docs/getting-started.html. [Accessed: June 16, 2022]
 
 - Used React documentation to to learn React.
 
-[4] "Installation - Material UI", Mui.com, 2022. [Online]. Available: https://mui.com/material-ui/getting-started/installation/. [Accessed: 16- Jun- 2022]
+[4] "Installation - Material UI", _Mui.com_ [Online]. Available: https://mui.com/material-ui/getting-started/installation/. [Accessed: June 16, 2022]
 
 - Used Material UI documentation to learn about different material UI components.
 
@@ -137,27 +141,4 @@ All the images used for this project are royalty free.
 
 - Some part of code is taken from first individual assignment referenced above.
 
-[11] G. Rai, "Mongoose's find method with $or condition does not work properly", Stack Overflow, 2022. [Online]. Available: https://stackoverflow.com/questions/7382207/mongooses-find-method-with-or-condition-does-not-work-properly. [Accessed: 05- Jul- 2022].
-
-- Used as reference to add or condition in find method
-
-Code Used:
-
-```
-User.find( { $or:[ {'_id':objId}, {'name':param}, {'nickname':param} ]},
-  function(err,docs){
-    if(!err) res.send(docs);
-});
-```
-
-Code Modified:
-
-```
-{ $or:[{source: req.body.source}, {dest_name: req.body.dest_name},{start_date: req.body.start_date},{return_date:req.body.return_date}] },
-
-```
-
-File : C:\Users\AVuser\Desktop\webProject\csci-5709-project\server\data\transportationDB\index.js
-
-Line: 18
-[11] - Blog content is taken from - https://www.theblondeabroad.com/ultimate-bali-travel-guide/
+[11] "Javascript regular expression password validation having special characters," _StackOverflow.com_ [Online]. Available: https://stackoverflow.com/questions/12090077/javascript-regular-expression-password-validation-having-special-characters. [Accessed: June 16, 2022]
