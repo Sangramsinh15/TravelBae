@@ -15,7 +15,6 @@ exports.fetchAllThingsToCarry = function (req, res) {
 
 // https://stackoverflow.com/questions/26985908/mongoose-query-with-array-parameter
 exports.filterThingsToCarry = function (req, res) {
-  console.log(req.body.tags);
   let tag = req.body.tags;
   if (tag == undefined || tag.length == 0 || Object.keys(tag).length === 0) {
     tag = ["camping", "hiking", "heritage", "business"];

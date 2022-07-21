@@ -39,7 +39,6 @@ const TripPlannerPage = () => {
     start_date: startDate,
     end_date: toDate,
   };
-  console.log("searchDest", searchDest);
   const handleClick = () => {
     if (!toDate) {
       setValidation("All fields are required");
